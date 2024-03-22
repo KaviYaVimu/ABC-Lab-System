@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ABC Lab Registration</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 130vh;
+            background: url('Registration.jpeg') center/cover no-repeat;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 130%;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        
+
+        .registration-container {
+            position: relative;
+            z-index: 2;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            width: 400px;
+            text-align: center;
+        }
+
+        .registration-container h2 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .registration-container label {
+            display: block;
+            margin: 15px 0 8px;
+            color: #555;
+            font-size: 14px;
+            text-align: left;
+        }
+
+        .registration-container input,
+        .registration-container select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .registration-container button {
+            background-color: #4caf50;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .registration-container button:hover {
+            background-color: #3399ff;
+        }
+
+        .registration-container .login-link {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 14px;
+            margin-top: 15px;
+            display: inline-block;
+        }
+
+        .registration-container .login-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="overlay"></div>
+    <div class="registration-container">
+        <h2>ABC Lab Registration</h2>
+        <form action="your_server_side_registration_handler.php" method="POST">
+            <label for="name">Full Name:</label>
+            <input type="text" id="fullname" name="fullname" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="dob">Date of Birth:</label>
+            <input type="date" id="dob" name="dob" required>
+
+            <label for="gender">Gender:</label>
+            <select id="gender" name="gender" required>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+            </select>
+            
+            <label for="age">Age:</label>
+            <input type="number" id="age" name="age" required>
+
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit">Register</button>
+        </form>
+        <a href="#" class="login-link">Already have an account? Login here</a>
+    </div>
+    
+    <script>
+  
+  
+  
+  const url = "http://localhost:8080/Lab_Appointment_System/registration.html";
+            var isEdit = false;
+            debugger;
+            getStudents();
+            
+            function getStudents() {
+                //let id = document.getElementById("txtID").value;
+                const options = {
+                    method : "GET"
+                };
+                fetch(url, options)
+                 .then(res => res.json())
+                 .then(data => {
+                            if (data !== null) {
+                               addTable(data);  
+                            } else {
+                                alert("Not found");
+                            }
+                            
+                        });
+
+            }
+            
+    //<button class="btn btn-success" onclick="readInfo('${param[i].id}', '${param[i].name}', '${param[i].age}', '${param[i].city}', '${param[i].email}', '${param[i].mobileNum}', '${param[i].address}', '${param[i].startDate}')" data-bs-toggle="modal" data-bs-target="#readData"><i class="bi bi-eye"></i></button>
+            const addTable = (param)=>{
+                debugger;   
+                let tab = <table  class="table table-striped table-hover mt-3 text-center table-bordered">;
+                let newtab= <tr><th>ID</th><th>Name</th><th>Age</th><th>city</th><th>Email</th><th>MobileNum</th><th>Address</th><th>StartDate</th></tr>;
+                for (var i = 0; i < param.length; i++) {
+                    //var date = param[i].startDate;
+                    //var sDate = moment(date).format('MM/DD/YYYY');
+                     newtab += `<tr>
+                                <td>${param[i].name}</td>
+                                <td>${param[i].email}</td>
+                                <td>${param[i].dob}</td>
+                                <td>${param[i].tId}</td>
+                                <td>${param[i].gender}</td>
+                                <td>${param[i].age}</td>
+                                <td>${param[i].phone}</td>
+                                <td>${param[i].password}</td>
+                                <td>
+                                    <button class="btn btn-info" onclick="viewStudent(${param[i].PId})">View</button>
+                                    <button class="btn btn-warning" onclick="updateStudent(${param[i].PId})">Update</button>
+                                    <button class="btn btn-danger" onclick="deleteInfo(${param[i].PId})">Delete</button>
+                                </td>
+                                </tr>`;
+                }
+                tab+=${newtab}</table>;
+                display.innerHTML += tab;
+             };
+            
+            //function getStudent() {
+            const getStudent = (id)=>{
+                if(id == 0){
+                    document.querySelector("#name").value = "";
+                    document.querySelector("#age").value = ""; 
+                    document.querySelector("#city").value = "";
+                    document.querySelector("#email").value = "";
+                    document.querySelector("#mobileNum").value = "";
+                    document.querySelector("#address").value = "";
+                    document.querySelector("#startDate").value = "";
+                }
+                else{
+                //let id = document.getElementById("txtID").value;
+                const options = {
+                    method : "GET"
+                };
+                debugger;
+                fetch(url + id, options)
+                 .then(res => res.json())
+                 .then(data => {
+                            if (data !== null) {
+                                document.querySelector("#id").value = data.id;
+                               document.querySelector("#name").value = data.name;
+                               document.querySelector("#age").value = data.age; 
+                               document.querySelector("#city").value = data.city;
+                               document.querySelector("#email").value = data.email;
+                               document.querySelector("#mobileNum").value = data.mobileNum;
+                               document.querySelector("#address").value = data.address;
+                               //document.querySelector("#startDate").value = data.startDate;
+                            } else {
+                                alert("Not found");
+                            }
+                            
+                        });
+                    }
+
+            };
+            
+            function readInfo(id, name, age, city, email, mobileNum, address, startDate){
+                //document.querySelector('#showid').value  = id,
+                //var date = new Date(startDate);
+                var date = moment(startDate).format('MM/DD/YYYY');
+                document.querySelector('#showname').value = name,
+                document.querySelector("#showage").value = age,
+                document.querySelector("#showcity").value = city,
+                document.querySelector("#showemail").value = email,
+                document.querySelector("#showmobileNum").value = mobileNum,
+                document.querySelector("#showaddress").value = address,
+                document.querySelector("#showstartDate").value = date
+            }
+
+            function addStudent() {
+                if(document.getElementById("tId").value != null && document.getElementById("tId").value != ''){
+                    let id = document.getElementById("id").value;
+                        var sSate = document.getElementById("startDate").value;
+                        var date = moment(sSate).format('MMM DD, YYYY');
+                        const person = {
+                            "id" : document.getElementById("id").value,
+                            "name" : document.getElementById("name").value,
+                            "age" : document.getElementById("age").value,
+                            "city" :  document.getElementById("city").value,
+                            "email" : document.getElementById("email").value,
+                            "mobileNum" : document.getElementById("mobileNum").value,
+                            "address" : document.getElementById("address").value,
+                            "startDate" : date
+
+                        };
+
+                        const options = {
+                           method : "PUT", 
+                           headers : {
+                               "content-type" : "application/json"
+                           },
+                           body : JSON.stringify(person)
+                       };
+
+                         fetch(url+id, options);
+                }
+                else{
+                
+                const person = 
+                        {
+                    "tName" : document.getElementById("tName").value,
+                    "nic" : document.getElementById("nic").value,
+                    "phoneNumber" :  document.getElementById("phoneNumber").value,
+                    "email" : document.getElementById("email").value
+                    //"uiId" : document.getElementById("uiId").value
+                    
+                };
+                debugger;
+                const options = {
+                   method : "POST", 
+                   headers : {
+                       "content-type" : "application/json"
+                   },
+                   body : JSON.stringify(person)
+               };
+                
+                 fetch(url, options);
+             }
+
+            }
+            
+            const viewStudent = (id)=>{
+                try {
+                    const options = {
+                    method : "GET"
+                    };
+                    debugger;
+                    fetch(url + id, options)
+                     .then(res => res.json())
+                     .then(data => {
+                        if (data !== null) {
+                            document.querySelector("#tId").value = data.tId;
+                            document.querySelector("#tName").value = data.tName;
+                            document.querySelector("#nic").value = data.nic; 
+                            document.querySelector("#phoneNumber").value = data.phoneNumber;
+                            document.querySelector("#email").value = data.email;
+                           //document.querySelector("#showimage").value = data.image;
+                           //var img = document.querySelector("#showimage");
+                           //var base64Image = data.image; // Replace with your actual base64 string
+                            // Get the image element by id
+                            //var imageElement = document.getElementById("showimage");
+                            // Set the src attribute with the base64 image string
+                            //imageElement.src = base64Image;
+                        } else {
+                            alert("Not found");
+                        }
+
+                     });
+                } catch (error) {
+                    console.error('An error occurred:', error);
+                }
+            };
+
+            function updateStudent() {
+                let id = document.getElementById("tId").value;
+                const person = {
+                    "tId" : document.getElementById("tId").value,
+                    "tName" : document.getElementById("tName").value,
+                    "nic" : document.getElementById("nic").value,
+                    "phoneNumber" :  document.getElementById("phoneNumber").value,
+                    "email" : document.getElementById("email").value
+                };
+                
+                const options = {
+                   method : "PUT", 
+                   headers : {
+                       "content-type" : "application/json"
+                   },
+                   body : JSON.stringify(person)
+               };
+                
+                 fetch(url+id, options);
+            }
+
+            function deleteStudent() {
+                let id = document.getElementById("txtID").value;
+                const options = {
+                    method : "DELETE"
+                };
+                fetch(url + id, options);
+            }
+            
+            function deleteInfo(index){
+                if(confirm("Are you sure want to delete?")){
+                    
+                    const options = {
+                    method : "DELETE"
+                    };
+                    fetch(url + index, options).then(getStudents());
+                    
+                    //getData.splice(index, 1)
+                    //localStorage.setItem("userProfile", JSON.stringify(getData))
+                    //showInfo()
+                }
+            }
+
+            function clearStudent() {
+                document.getElementById("txtID").value = "";
+                document.getElementById("txtName").value = "";
+                document.getElementById("dateOfBirth").value = "";
+            }
+  
+</script>
+
+</body>
+
+</html>

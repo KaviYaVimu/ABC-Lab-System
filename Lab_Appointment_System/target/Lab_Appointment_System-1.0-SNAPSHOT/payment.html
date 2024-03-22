@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab Appointment System - Payment</title>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('payments.png') center/cover no-repeat;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        nav {
+            background-color: #007bff;
+            overflow: hidden;
+        }
+
+        nav a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        nav a:hover {
+            background-color: #0056b3;
+            color: white;
+        }
+
+        section {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h2 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        form input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        form button {
+            background-color: #007bff;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        form button:hover {
+            background-color: #0056b3;
+        }
+
+        p {
+            color: #555;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Lab Appointment System</h1>
+    </header>
+
+    <nav>
+        <a href="http://localhost:8080/Lab_Appointment_System/home.html">Home</a>
+        <a href="http://localhost:8080/Lab_Appointment_System/Appointments.html">Schedule Appointment</a>
+        <a href="http://localhost:8080/Lab_Appointment_System/payment.html">Payments</a>
+        <a href="http://localhost:8080/Lab_Appointment_System/PatientsPrescription.html">Prescription</a>
+        <!-- Add more navigation links as needed -->
+    </nav>
+
+    <section id="payments">
+        <h2>Make Payment</h2>
+        <form action="your_server_side_payment_handler.php" method="POST">
+            <label for="cardNumber">Card Number:</label>
+            <input type="text" id="cardNumber" name="cardNumber" placeholder="Enter your card number" required>
+            
+            <label for="nameOnCard">Name on Card:</label>
+            <input type="text" id="nameOnCard" name="nameOnCard" placeholder="Enter name as it appears on card" required>
+
+            <label for="expiryDate">Expiry Date:</label>
+            <input type="text" id="expiryDate" name="expiryDate" placeholder="MM/YY" required>
+
+            <label for="cvv">CVV:</label>
+            <input type="text" id="cvv" name="cvv" placeholder="Enter CVV" required>
+
+
+            <button type="submit">Submit Payment</button>
+        </form>
+    </section>
+
+    <!-- Add more sections for other functionalities as needed -->
+
+</body>
+
+</html>

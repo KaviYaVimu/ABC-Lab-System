@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .container {
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Dashboard</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Dashboard</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h2>Items</h2>
+        <form id="itemForm">
+            <div class="mb-3">
+                <label for="itemName" class="form-label">Item Name</label>
+                <input type="text" class="form-control" id="itemName" required>
+                <input type="hidden" id="itemIndex">
+            </div>
+            <button type="submit" class="btn btn-primary">Add Item</button>
+            <button type="button" class="btn btn-secondary" id="cancelEdit" style="display: none;">Cancel</button>
+        </form>
+
+        <div class="mt-3">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="itemList">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            // Array to store items
+            let items = [];
+
+            // Function to render items
+            function renderItems() {
+                $('#itemList').empty();
+                items.forEach(function(item, index) {
+                    $('#itemList').append(`
+                        <tr>
+                            <th scope="row">${index + 1}</th>
+                            <td>${item}</td>
+                            <td>
+                                <button class="btn btn-sm btn-warning edit-item" data-index="${index}">Edit</button>
+                                <button class="btn btn-sm btn-danger delete-item" data-index="${index}">Delete</button>
+                            </td>
+                        </tr>
+                    `);
+                });
+            }
+
+            // Add item
+            $('#itemForm').submit(function(event) {
+                event.preventDefault();
+                let itemName = $('#itemName').val().trim();
+                let itemIndex = $('#itemIndex').val();
+                if (itemName) {
+                    if (itemIndex !== '') {
+                        items[itemIndex] = itemName;
+                        $('#itemIndex').val('');
+                        $('#cancelEdit').hide();
+                    } else {
+                        items.push(itemName);
+                    }
+                    renderItems();
+                    $('#itemName').val('');
+                }
+            });
+
+            // Edit item
+            $(document).on('click', '.edit-item', function() {
+                let index = $(this).data('index');
+                let itemName = items[index];
+                $('#itemName').val(itemName);
+                $('#itemIndex').val(index);
+                $('#cancelEdit').show();
+            });
+
+            // Cancel edit
+            $('#cancelEdit').click(function() {
+                $('#itemName').val('');
+                $('#itemIndex').val('');
+                $('#cancelEdit').hide();
+            });
+
+            // Delete item
+            $(document).on('click', '.delete-item', function() {
+                let index = $(this).data('index');
+                items.splice(index, 1);
+                renderItems();
+            });
+
+            // Initial rendering
+            renderItems();
+        });
+    </script>
+</body>
+</html>
