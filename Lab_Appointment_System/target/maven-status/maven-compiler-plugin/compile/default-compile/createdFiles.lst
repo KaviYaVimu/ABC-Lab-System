@@ -1,3 +1,2 @@
-com\mycompany\lab_appointment_system\resources\JakartaEE10Resource.class
 com\mycompany\lab_appointment_system\JakartaRestConfiguration.class
-com\mycompany\lab_appointment_system\Patient.class
+com\mycompany\lab_appointment_system\resources\JakartaEE10Resource.class
